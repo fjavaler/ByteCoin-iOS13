@@ -1,5 +1,5 @@
 //
-//  ViewController.swift
+//  CoinViewController.swift
 //  ByteCoin
 //
 //  Created by Angela Yu on 11/09/2019.
@@ -8,9 +8,9 @@
 
 import UIKit
 
-class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
+class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
   
-  let coinManager = CoinManager()
+  var coinManager = CoinManager()
   
   // Number of columns to display in picker view.
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -41,6 +41,14 @@ class ViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDele
     
     currencyPicker.dataSource = self
     currencyPicker.delegate = self
+    coinManager.delegate = self
   }
-  
+}
+
+// MARK: - CoinManagerDelegate Functions
+
+extension CoinViewController: CoinManagerDelegate {
+  func didFailWithError(error: Error) {
+    print(error)
+  }
 }
