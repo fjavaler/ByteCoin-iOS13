@@ -1,12 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<!--
-   CoinAPI.plist
-   ByteCoin
-
-   Created by Fred Javalera on 4/22/21.
-   Copyright (c) 2021 The App Brewery. All rights reserved.
--->
 <plist version="1.0">
-<dict/>
+<dict>
+	<key>API_KEY</key>
+	<string>C15C638D-52EC-4C2C-B989-A37B196DF112</string>
+</dict>
 </plist>
