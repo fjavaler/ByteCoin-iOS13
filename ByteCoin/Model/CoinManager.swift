@@ -15,6 +15,7 @@ protocol CoinManagerDelegate {
 struct CoinManager {
   
   let baseURL = "https://rest.coinapi.io/v1/exchangerate/BTC"
+  let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
   
   var delegate: CoinManagerDelegate?
   
@@ -41,27 +42,50 @@ struct CoinManager {
   
   func getCoinPrice(for currency: String) {
     
-  }
-  
-  func performRequest(with urlString: String) {
+    // Use String concatenation to add the selected currency at the end of the baseURL along with the API key.
+    let urlString = "\(baseURL)/\(currency)?apikey=\(apiKey)"
+    
+    // Use optional binding to unwrap the URL that's created from the urlString.
     if let url = URL(string: urlString) {
+      
+      // Create a new URLSession object with default configuration.
       let session = URLSession(configuration: .default)
+      
+      // Create a new data task for the URLSession.
       let task = session.dataTask(with: url) { (data, response, error) in
         if error != nil {
-//           self.delegate?.didFailWIthError(error: error!)
+           print(error!)
           return
         }
         
-//        if let safeData = data {
-//          if let weather = self.parseJSON(safeData) {
-//             self.delegate?.didUpdateWeather(self, weather: weather)
-//          }
-//        }
+        if let safeData = data {
+          let bitCoinPrice = self.parseJSON(safeData)
+        }
       }
+      // Start the task.
       task.resume()
     }
   }
-  
-  let currencyArray = ["AUD", "BRL","CAD","CNY","EUR","GBP","HKD","IDR","ILS","INR","JPY","MXN","NOK","NZD","PLN","RON","RUB","SEK","SGD","USD","ZAR"]
 
+  func parseJSON(_ data: Data) -> Double? {
+    
+    // Create a JSONDecoder
+    let decoder = JSONDecoder()
+    do {
+      
+      // Try to decode the data using the CoinData structure.
+      let decodeData = try decoder.decode(CoinData.self, from: data)
+      
+      // Get the last property from the decoded data.
+      let lastPrice = decodeData.rate
+      print(lastPrice)
+      return lastPrice
+      
+    } catch {
+      
+      // Catch and print any errors.
+      print(error)
+      return nil
+    }
+  }
 }

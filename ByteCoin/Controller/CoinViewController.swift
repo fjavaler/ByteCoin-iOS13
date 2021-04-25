@@ -10,7 +10,19 @@ import UIKit
 
 class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerViewDelegate {
   
+  @IBOutlet weak var bitcoinLabel: UILabel!
+  @IBOutlet weak var currencyLabel: UILabel!
+  @IBOutlet weak var currencyPicker: UIPickerView!
+  
   var coinManager = CoinManager()
+  
+  override func viewDidLoad() {
+    super.viewDidLoad()
+    
+    currencyPicker.dataSource = self
+    currencyPicker.delegate = self
+    coinManager.delegate = self
+  }
   
   // Number of columns to display in picker view.
   func numberOfComponents(in pickerView: UIPickerView) -> Int {
@@ -30,18 +42,6 @@ class CoinViewController: UIViewController, UIPickerViewDataSource, UIPickerView
   // Gets the coin price for the currency type
   func pickerView(_ pickerView: UIPickerView, didSelectRow row: Int, inComponent component: Int) {
     coinManager.getCoinPrice(for: coinManager.currencyArray[row])
-  }
-  
-  @IBOutlet weak var bitcoinLabel: UILabel!
-  @IBOutlet weak var currencyLabel: UILabel!
-  @IBOutlet weak var currencyPicker: UIPickerView!
-  
-  override func viewDidLoad() {
-    super.viewDidLoad()
-    
-    currencyPicker.dataSource = self
-    currencyPicker.delegate = self
-    coinManager.delegate = self
   }
 }
 
